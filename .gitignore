@@ -1,6 +1,6 @@
 code/Data/
 code/Raw\ Data/
 code/Training_data.py
-code/_pycache_/
+code/__pycache__/
 code/.DS_Store
 .DS_Store
