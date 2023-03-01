@@ -1,4 +1,4 @@
-code/Data/
+code/Data/.DS_Store
 code/Raw\ Data/
 code/Training_data.py
 code/__pycache__/

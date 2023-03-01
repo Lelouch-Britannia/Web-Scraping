@@ -87,13 +87,19 @@ def main():
 
 			with open(clean_file_loc, "w") as f_prime:
 
-				fieldnames = ["Unclean", "Clean", "Noise_Pre_Processing","Training_Data", "Noise_Post_Processing"]
+				fieldnames = ["Unclean", "Clean", "Noise_Pre_Processing","Training_Data", "Noise_Post_Processing", "Query"]
 				writer = csv.DictWriter(f_prime, fieldnames=fieldnames)
 				writer.writeheader()
 
 				for row in reader:
 
 					data = row["Paragraph"].lower()
+					try:
+						query = row["Query"]
+					except KeyError:
+						continue
+						print(f"No query found")
+
 
 					data = textPP(data)
 
@@ -130,9 +136,12 @@ def main():
 
 					  #Tokenization
 					  training_data = line.split(" ")
-					  training_data = ",".join(training_data)
 
-					  writer.writerow({"Unclean": unclean_string, "Noise_Pre_Processing" : noise_pre,"Clean" : clean_string, "Training_Data" : training_data, "Noise_Post_Processing": noise_post})
+					  #Keeping only those sentences that has query(Training word instance)
+					  if query in training_data:
+
+						  training_data = ",".join(training_data)
+						  writer.writerow({"Unclean": unclean_string, "Noise_Pre_Processing" : noise_pre,"Clean" : clean_string, "Training_Data" : training_data, "Noise_Post_Processing": noise_post, "Query": query})
 
 
 

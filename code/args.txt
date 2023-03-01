@@ -1,6 +1,6 @@
 --data
 /Users/ltc/Documents/Python Scripts/CS772/Assignment1/Dataset/Analogy_dataset.txt
 --file
-/Users/ltc/Documents/Python Scripts/CS772/Assignment1/Dataset/url3.csv
+/Users/ltc/Documents/Python Scripts/CS772/Assignment1/Dataset/url.csv
 --results
-1
+3

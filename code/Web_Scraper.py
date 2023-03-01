@@ -27,9 +27,11 @@ def Parser():
 	    help="URL to Website" # help message displayed in the help output
 	)
 
+	parser.add_argument("-q", type=str, default="default_value", help="Query on which sentence be selected")
+
 	# parse the command-line arguments and return the value of the "url" argument
 	args = parser.parse_args()
-	return args.url
+	return args.url, args.q
 
 
 
@@ -38,7 +40,8 @@ def Parser():
 def Web_Scraper_main():
 
 	# get the URL of the website to be scraped from the command-line arguments
-	url = Parser()
+	url, query = Parser()
+	# print(query)
 
 	# send a GET request to the website
 	response = requests.get(url)
@@ -94,7 +97,10 @@ def Web_Scraper_main():
 
 
 		#Columns of CSV files
-		fieldnames = ["Paragraph"]
+		if query != "default_value":
+			fieldnames = ["Paragraph", "Query"]
+		else:
+			fieldnames = ["Paragraph"]
 
 		#Writer Object 
 		csv_writer  = csv.DictWriter(f, fieldnames=fieldnames, delimiter=",")
@@ -104,7 +110,10 @@ def Web_Scraper_main():
 		#Find all the paragraphs
 		for p in soup.find_all("p"):
 			count += 1
-			csv_writer.writerow({"Paragraph": p.text})
+			if query != "default_value":
+				csv_writer.writerow({"Paragraph": p.text, "Query": query})
+			else:
+				csv_writer.writerow({"Paragraph": p.text})
 
 	print(f"No. of Paragraphs Successfully Writen : {count}")
 

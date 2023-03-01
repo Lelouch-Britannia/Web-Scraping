@@ -18,7 +18,7 @@ def Parser():
     parser.add_argument("url_file_path")
 
     # Add an optional argument for specifying that the input is a file
-    parser.add_argument("-f", "--file", action="store_true", required=True, help="Location of dataset")
+    parser.add_argument("-f", "--file", action="store_true", required=True, help="Location of URLs dataset")
 
     # Parse the command-line arguments and return the URL file path
     args = parser.parse_args()
@@ -35,15 +35,17 @@ def main():
 
         # Arguments to pass to the Web_Scraper_main function
         u = "--url"
+        q = "-q"
 
         # Iterate over each row in the URL file
         for line in reader:
             # Get the URL from the current row
             url = line["URL"]
+            query = line["Query"]
 
             # Request and scrape the data for the current URL
             # Modify sys.argv before calling Web_Scraper_main to pass in the URL as an argument
-            sys.argv = [sys.argv[0], u, url]
+            sys.argv = [sys.argv[0], u, url, q, query]
             Web_Scraper_main()
 
 

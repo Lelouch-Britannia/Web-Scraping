@@ -108,28 +108,39 @@ def main_wiki_url():
 	# Sort the list of words by the first letter of each word
 	word_db = sorted(word_db, key=lambda x : x[0])
 
-	# Initialize an empty list to store the URLs for the search results
-	url_list = []
-
-	# Search Wikipedia for each word in the list of words from the dataset
-	for word in word_db:
-		# Get the top `no_of_results` search results for the word on Wikipedia
-		url_list.extend(pageUrl(word, no_of_results))
 
 	# Write the list of URLs to a CSV file
 	with open(url_file, "w") as f:
 
 		# Define the field names for the CSV file
-		fieldnames = ["URL"]
+		fieldnames = ["URL", "Query"]
 
 		# Create a CSV writer object with the field names and write the header row
 		writer = csv.DictWriter(f, fieldnames=fieldnames)
 		writer.writeheader()
 
-		# Write each URL to a row in the CSV file
-		for url in url_list:
-			writer.writerow({"URL" : url})
 
+		# Search Wikipedia for each word in the list of words from the dataset
+		for query in word_db:
+			# Get the top `no_of_results` search results for the word on Wikipedia
+			# url_list.extend(pageUrl(word, no_of_results))
+			titles = wikipedia.search(query, results=no_of_results)
+
+		
+			# Iterate over each search result
+			for title in titles:
+
+				# Check if the title contains "(disambiguation)", which usually indicates
+				# that it's a disambiguation page with multiple possible meanings for the search query
+				if "(disambiguation)" in title:
+					# Skip this search result and move on to the next one
+					continue
+
+				# Construct the URL for the Wikipedia page based on the search result title
+				url = f"https://en.wikipedia.org/wiki/{title}"
+
+				writer.writerow({"URL" : url, "Query": query})
+	
 
 
 if __name__ == "__main__":
