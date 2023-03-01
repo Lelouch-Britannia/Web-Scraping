@@ -55,9 +55,8 @@ def textPP(data):
 	return data
 
 
-def main():
+def text_processing_main(raw_data_dir):
 	
-	raw_data_dir = Parser()
 
 	#Directory name
 	dirname = os.path.dirname(raw_data_dir)
@@ -146,4 +145,6 @@ def main():
 
 
 if __name__ == "__main__":
-	main()
+
+	raw_data_dir = Parser()
+	text_processing_main(raw_data_dir)
